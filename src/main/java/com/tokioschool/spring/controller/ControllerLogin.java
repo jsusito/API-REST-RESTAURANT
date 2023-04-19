@@ -1,5 +1,7 @@
 package com.tokioschool.spring.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tokioschool.spring.security.JwtRequest;
 import com.tokioschool.spring.security.JwtResponse;
 import com.tokioschool.spring.security.JwtTokenUtil;
+import com.tokioschool.spring.service.UserService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,7 @@ public class ControllerLogin {
 	private final JwtTokenUtil jwtTokenUtil;
 	private final UserDetailsService userDetailsService;
 	private final PasswordEncoder passwordEncoder;
+	private final UserService userService;
 	
 	@Tag(name="Login", description ="Authentication (get the Bearer)")
 	@PostMapping(value="/login", consumes = "application/json", produces = "application/json")
@@ -34,10 +38,11 @@ public class ControllerLogin {
 		
 		//comprueba que el usuario y contraseña existan, llama internamente a FilterSecurity y a userDetails.
 		authenticate(authRequest.getUsername(), authRequest.getPassword());
-		
-		//El token se genera según el "secreto" y con el nombre del Usuario
+
+		userService.updateInitSesion(authRequest.getUsername(), LocalDateTime.now());
+	
 		final String token = jwtTokenUtil.generateToken(authRequest.getUsername());
-		//Devolvemos el token en el cuerpo de la respuesta
+		
 		return ResponseEntity.ok(new JwtResponse(token));
 		
 	}

@@ -2,9 +2,10 @@ package com.tokioschool.spring.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +36,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	
+	
 	String name;
 	String surname;
 	
@@ -53,7 +54,7 @@ public class User {
 	String telephone;
 	
 	@Column(nullable = false)
-	@Setter(value = AccessLevel.NONE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate birtDate;
 	
 	LocalDate creationDate;
@@ -83,10 +84,6 @@ public class User {
 	}
 
 
-
-	public void setBirtDate(String currentBirtDate) {
-		birtDate = LocalDate.parse(currentBirtDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-	}
 
 	
 	

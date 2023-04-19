@@ -1,12 +1,12 @@
 package com.tokioschool.spring.domain.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
-import org.modelmapper.ModelMapper;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import com.tokioschool.spring.domain.User;
-
+import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +18,23 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserDTO {
 	
+	@Hidden
 	private long id;
-    private String username;
-    private String name;
+	
+	@NotNull
+	private String username;
+    
+	@NotNull
+	private String name;
+    
+    @NotNull
+    private String password;
     
     private String surname;
+    
+    @NotNull
     private String email;
+    
     private String telephone;
     
     private String address;
@@ -36,15 +47,20 @@ public class UserDTO {
     private String country;
     
     private String image;
-    private LocalDate creationDate;
-    private LocalDateTime lastLogin;
+    
     private boolean active;
+    
     private int age;
+    
+    private List<String> roles;
+    
+        
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate birtDate;
 
-    public static UserDTO conveUserDTO(User user){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(user, UserDTO.class);
-    }
+    
+    
     
 
 }

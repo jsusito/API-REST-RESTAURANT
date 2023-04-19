@@ -2,7 +2,6 @@ package com.tokioschool.spring.security;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -37,9 +36,11 @@ public class WebSecurityConfig  {
 	                , "/configuration/ui"
 					, "/reservation/**"
 					, "/api-docs/**"
-	                , "/testExchangeAuthentication")
-                        .permitAll()
-                        .anyRequest().authenticated())
+					, "/testExchangeAuthentication")
+                        .permitAll())
+				.authorizeHttpRequests(requests -> requests.requestMatchers(
+					"/user/new-user").hasAuthority("ADMIN")
+					.anyRequest().authenticated())
                 .exceptionHandling(handling -> handling.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
@@ -54,11 +55,7 @@ public class WebSecurityConfig  {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
-	
+		
 	
 	
 }

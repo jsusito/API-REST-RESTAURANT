@@ -18,6 +18,7 @@ import com.tokioschool.spring.domain.dto.RecetaDTO;
 import com.tokioschool.spring.service.RecetasService;
 import com.tokioschool.spring.store.domain.dto.ImageResourceDTO;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -25,18 +26,18 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 
+@Tag(name ="Recipe",description = "SAVE NEW RECIPE, LOAD AND SAVE HIS IMAGE")
 @RequestMapping("/recetas")
 public class ControllerRecetas {
 	
 	private final RecetasService recetaService;
-	//private final RecetasDAO recetasDAO;
-	
+		
 	@GetMapping({"recetas", "recetas/" })
 	public ResponseEntity<Set<RecetaDTO>> getRecetas(){
 		return ResponseEntity.ok(recetaService.getRecetas());
 	}
 	
-	@PostMapping("recetas")
+	//TODO pendiente de completar falta verificar bien
 	public ResponseEntity<RecetaDTO> newReceta(
 			@RequestBody @Valid RecetaDTO recetaDTO,
 			@RequestPart("imagen") @NotNull MultipartFile multipartFile ){

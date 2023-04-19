@@ -28,9 +28,9 @@ public class WebConfigureOpenApi {
 				.info(new Info().title("Filmo Tokio")
 				.description("Api Rest")
 				.contact(new Contact()
-					.name("Reviews`s Films")
-					.email("infoTokio@tokioShool.com")
-					.url("https://tokioSchool.com"))
+					.name("Restaurant info")
+					.email("jsusito@gmail.com")
+					.url("https://www.casandrarestaurantes.com"))
 				.version("1.0"));
 			}
 }

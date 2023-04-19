@@ -1,8 +1,10 @@
 package com.tokioschool.spring.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.tokioschool.spring.domain.User;
@@ -17,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 public class UserServiImpl implements UserService {
 
 	private final UserRepository userRepository;
+	private final ModelMapper modelMapper;
+	
 	
 	
 	@Override
@@ -30,17 +34,24 @@ public class UserServiImpl implements UserService {
 		return userRepository.findByUsername(username);
 	}
 	@Override
-	public void save(User user) {
+	public UserDTO save(User user) {
 		
-		userRepository.save(user);
+		User Currentuser = userRepository.save(user);
+		return modelMapper.map(Currentuser, UserDTO.class);
+		
 	}
 	@Override
 	public UserDTO getUser(String username) {
 		//Validations
 		User user = userRepository.findByUsername(username)
 			.orElseThrow(()-> new NoSuchElementException("No existe este usuario")); 
-		return 
-			UserDTO.conveUserDTO(user);
+		
+		return modelMapper.map(user, UserDTO.class);
+			
+	}
+	@Override
+	public int updateInitSesion(String username, LocalDateTime lastLogin) {
+		return userRepository.updateInitSesion(username, lastLogin);
 	}
 
 }
