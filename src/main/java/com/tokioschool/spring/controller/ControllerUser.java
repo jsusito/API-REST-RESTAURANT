@@ -1,7 +1,5 @@
 package com.tokioschool.spring.controller;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.List;
 
@@ -52,8 +50,7 @@ private final PasswordEncoder passwordEncoder;
     			.password(pwdEncoder)
     			.username(userDTO.getUsername())
     			.email(userDTO.getEmail())
-				.creationDate(LocalDate.now(ZoneId.systemDefault()))
-    			.image(userDTO.getImage())
+				.image(userDTO.getImage())
     			.birtDate(userDTO.getBirtDate())
     			.roles(new HashSet<>(List.of(role)))
     			.telephone(userDTO.getTelephone())

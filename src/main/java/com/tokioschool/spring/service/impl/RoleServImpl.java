@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import com.tokioschool.spring.domain.Role;
-import com.tokioschool.spring.domain.repository.RoleRepository;
+import com.tokioschool.spring.domain.repository.RoleDAO;
 import com.tokioschool.spring.service.RoleService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RoleServImpl implements RoleService {
 
-	private final RoleRepository roleRepository;
+	private final RoleDAO roleRepository;
 	@Override
 	public Set<Role> findAll() {
 		Iterable<Role> roleIterable = roleRepository.findAll();

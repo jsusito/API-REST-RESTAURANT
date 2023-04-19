@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -57,7 +59,9 @@ public class User {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate birtDate;
 	
+	@CreationTimestamp
 	LocalDate creationDate;
+	
 	LocalDateTime lastLogin;
 	boolean active;
 	
@@ -67,7 +71,7 @@ public class User {
 	Set<Role> roles;
 	
 		
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	Set<Reservation> reservations;
 	
 	

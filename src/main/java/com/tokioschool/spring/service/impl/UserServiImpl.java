@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.tokioschool.spring.domain.User;
 import com.tokioschool.spring.domain.dto.UserDTO;
-import com.tokioschool.spring.domain.repository.UserRepository;
+import com.tokioschool.spring.domain.repository.UserDAO;
 import com.tokioschool.spring.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiImpl implements UserService {
 
-	private final UserRepository userRepository;
+	private final UserDAO userRepository;
 	private final ModelMapper modelMapper;
 	
 	

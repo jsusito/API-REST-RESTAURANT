@@ -14,7 +14,7 @@ import com.tokioschool.spring.domain.User;
 import jakarta.transaction.Transactional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserDAO extends JpaRepository<User, Long> {
 
 	Optional<User> findByUsername(String username);
 

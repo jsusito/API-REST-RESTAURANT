@@ -10,7 +10,7 @@ import com.tokioschool.spring.domain.Reservation;
 import com.tokioschool.spring.domain.User;
 import com.tokioschool.spring.domain.dto.ReservationDTO;
 import com.tokioschool.spring.domain.repository.ReservationDAO;
-import com.tokioschool.spring.domain.repository.UserRepository;
+import com.tokioschool.spring.domain.repository.UserDAO;
 import com.tokioschool.spring.service.ReservationService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class ReservationServiceImpl implements ReservationService{
 
     private final int MAX_NUM_TABLES = 8;
     private final ReservationDAO reservationDAO;
-    private final UserRepository userRepository;
+    private final UserDAO userRepository;
     private final ModelMapper modelMapper;
     @Override
     public void save(ReservationDTO reservationDTO) {
