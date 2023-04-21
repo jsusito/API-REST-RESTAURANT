@@ -31,7 +31,7 @@ public class ControllerReservation {
             .body(reservationService.getReservations(surname));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> add(@RequestBody @Valid ReservationDTO reservationDTO){
         
         reservationService.save(reservationDTO);
