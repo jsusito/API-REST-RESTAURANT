@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,6 +24,8 @@ import lombok.Setter;
 
 public class ReservationDTO {
 	
+	@Hidden
+	long id;
 		
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -44,4 +47,6 @@ public class ReservationDTO {
 	private String dinnerHour;
 	
 	private String userUsername;
+
+	private String userTelephone;
 }

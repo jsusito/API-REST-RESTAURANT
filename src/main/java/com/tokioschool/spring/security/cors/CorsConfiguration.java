@@ -26,7 +26,7 @@ public class CorsConfiguration implements WebMvcConfigurer{
 			.allowedOrigins(configCors.permit()); 
 		registry
 			.addMapping("/reservation/**")
-			.allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name())
+			.allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.DELETE.name())
 			.allowedOrigins(configCors.permit()); 
 	}
 	

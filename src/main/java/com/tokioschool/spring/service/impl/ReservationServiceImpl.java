@@ -65,7 +65,7 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<ReservationDTO> getReservations(String surname) {
         
-        return reservationDAO.findByUserUsername(surname)
+        return reservationDAO.findByUserUsernameOrderByDateReservations(surname)
                 .stream()
                 .map(reserva -> modelMapper.map(reserva, ReservationDTO.class)).toList();
     }
