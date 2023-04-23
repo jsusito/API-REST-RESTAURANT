@@ -11,19 +11,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tokioschool.spring.domain.GuestReservation;
+import com.tokioschool.spring.domain.dto.GuestReservationDTO;
 import com.tokioschool.spring.domain.dto.ReservationDTO;
+import com.tokioschool.spring.service.GuestReservationService;
 import com.tokioschool.spring.service.ReservationService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/reservation")
 @RequiredArgsConstructor
+@Slf4j
 public class ControllerReservation {
     
     private final ReservationService reservationService;
+    private final GuestReservationService guestReservationService;
 
     @GetMapping("/{surname}")
     public ResponseEntity<List<ReservationDTO>> getReservations(@PathVariable String surname){
@@ -37,6 +43,20 @@ public class ControllerReservation {
         reservationService.save(reservationDTO);
         return ResponseEntity.ok("");
     }
+    
+    @PostMapping("/guest")
+    public ResponseEntity<?> addGuestReservatins(@RequestBody @Valid GuestReservationDTO guestReservationDTO){
+        
+        try {
+            new Thread().sleep(3000);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage());      
+        }
+        
+        guestReservationService.save(guestReservationDTO);
+        return ResponseEntity.ok("");
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable @NotNull long id){
         

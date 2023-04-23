@@ -34,7 +34,7 @@ public class WebSecurityConfig  {
 	                , "/swagger-resources"
 	                , "/configuration/security"
 	                , "/configuration/ui"
-					, "/reservation/**"
+					, "/reservation/guest"
 					, "/api-docs/**"
 					, "/testExchangeAuthentication")
                         .permitAll())
