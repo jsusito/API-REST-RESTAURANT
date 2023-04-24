@@ -1,5 +1,6 @@
 package com.tokioschool.spring.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tokioschool.spring.domain.GuestReservation;
 import com.tokioschool.spring.domain.dto.GuestReservationDTO;
 import com.tokioschool.spring.domain.dto.ReservationDTO;
+import com.tokioschool.spring.domain.dto.ReservationUserAndGuest;
 import com.tokioschool.spring.service.GuestReservationService;
 import com.tokioschool.spring.service.ReservationService;
+import com.tokioschool.spring.service.ReservationUserAndGuestService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -30,11 +32,19 @@ public class ControllerReservation {
     
     private final ReservationService reservationService;
     private final GuestReservationService guestReservationService;
+    private final ReservationUserAndGuestService reservationUserAndGuestService;
+
 
     @GetMapping("/{surname}")
     public ResponseEntity<List<ReservationDTO>> getReservations(@PathVariable String surname){
         return ResponseEntity.ok()
-            .body(reservationService.getReservations(surname));
+            .body(reservationService.getReservationsByUsername(surname));
+    }
+
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<ReservationUserAndGuest>> getReservationsByDate(@PathVariable LocalDate date){
+        return ResponseEntity.ok()
+            .body(reservationUserAndGuestService.getReservations(date));
     }
 
     @PostMapping
@@ -45,7 +55,7 @@ public class ControllerReservation {
     }
     
     @PostMapping("/guest")
-    public ResponseEntity<?> addGuestReservatins(@RequestBody @Valid GuestReservationDTO guestReservationDTO){
+    public ResponseEntity<?> addGuestReservations(@RequestBody @Valid GuestReservationDTO guestReservationDTO){
         
         try {
             new Thread().sleep(3000);

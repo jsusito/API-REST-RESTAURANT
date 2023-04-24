@@ -1,5 +1,6 @@
 package com.tokioschool.spring.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.tokioschool.spring.domain.Reservation;
 import com.tokioschool.spring.domain.User;
 import com.tokioschool.spring.domain.dto.ReservationDTO;
+import com.tokioschool.spring.domain.repository.GuestReservationDAO;
 import com.tokioschool.spring.domain.repository.ReservationDAO;
 import com.tokioschool.spring.domain.repository.UserDAO;
 import com.tokioschool.spring.service.ReservationService;
@@ -21,6 +23,7 @@ public class ReservationServiceImpl implements ReservationService{
 
     private final int MAX_NUM_TABLES = 8;
     private final ReservationDAO reservationDAO;
+    private final GuestReservationDAO guestReservationDAO;
     private final UserDAO userRepository;
     private final ModelMapper modelMapper;
     @Override
@@ -63,11 +66,19 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
-    public List<ReservationDTO> getReservations(String surname) {
+    public List<ReservationDTO> getReservationsByUsername(String surname) {
         
-        return reservationDAO.findByUserUsernameOrderByDateReservations(surname)
+        return reservationDAO.findByUserUsernameOrderByDateReservationsAscDinnerHour(surname)
                 .stream()
                 .map(reserva -> modelMapper.map(reserva, ReservationDTO.class)).toList();
+    }
+
+    @Override
+    public List<ReservationDTO> getReservationsByDate(LocalDate date) {
+         return 
+            reservationDAO.findByDateReservationsOrderByDinnerHourAsc(date)
+            .stream()
+            .map(reserva -> modelMapper.map(reserva, ReservationDTO.class)).toList();
     }
     
 }

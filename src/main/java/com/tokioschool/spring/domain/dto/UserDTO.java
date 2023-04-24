@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +28,9 @@ public class UserDTO {
 	@NotNull
 	private String name;
     
+    
     @NotNull
+    @Schema(description = "Only register new User, This field don't send in a request")
     private String password;
     
     private String surname;
