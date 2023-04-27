@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableMethodSecurity //Activamos para que active la configuracion del Bean SecurityFilterChain
+@EnableMethodSecurity //que active la configuracion del Bean SecurityFilterChain
 @RequiredArgsConstructor
 public class WebSecurityConfig  {
 	

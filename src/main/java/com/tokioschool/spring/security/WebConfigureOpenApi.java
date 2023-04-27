@@ -25,7 +25,7 @@ public class WebConfigureOpenApi {
 						.scheme("bearer")
 						.bearerFormat("JWT"))
 					)
-				.info(new Info().title("Filmo Tokio")
+				.info(new Info().title("Restaurante Casandra")
 				.description("Api Rest")
 				.contact(new Contact()
 					.name("Restaurant info")

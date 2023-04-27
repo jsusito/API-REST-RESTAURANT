@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,10 +65,12 @@ public class UserRepositoryTest {
 
         user2.setReservations(new HashSet<>(List.of(reservation2)));
         userDAO.save(user2);
-            
+     }
 
-
-    }
+    @AfterEach
+	void afterEach() {
+		userDAO.deleteAll();
+	}
 
     @Test
     void givenUser_whenFindAllAndDeleteReservation_thenReturnOk(){
