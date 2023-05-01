@@ -16,9 +16,9 @@ import com.tokioschool.spring.domain.proyection.UserCounterByReservation;
 @Repository
 public interface ReservationDAO extends JpaRepository<Reservation, Long> {
     
-    List<Reservation> findByUserUsernameOrderByDateReservationsAscDinnerHour(String username);
+    List<Reservation> findByUserUsernameOrderByDateReservationsAscLunchHour(String username);
     
-    List<Reservation> findByDateReservationsOrderByDinnerHourAsc(LocalDate dateReservations);
+    List<Reservation> findByDateReservationsOrderByLunchHourAsc(LocalDate dateReservations);
 
     @Query("SELECT r.user.username AS username, COUNT(1) AS counter FROM reservations r GROUP BY r.user.username")
     List<UserCounterByReservation> getCountReservationsByUser();

@@ -134,7 +134,6 @@ public class ReservationsTest {
         Optional<ReservationCounterByDate> getReservationCounterByDate = reservationDAO.getReservationCounterByDate(LocalDate.of(2023, 4, 26));
 
         assertThat(getReservationCounterByDate.get().getCounter() == 2);
-        System.out.println(getReservationCounterByDate.get().getDateReservation().toString());
         assertThat(getReservationCounterByDate.get().getDateReservation().toString().equals("2023-04-26")).isTrue();
 
     }

@@ -31,14 +31,11 @@ public class Reservation {
 	
 	int numberPeople;
 	
-	int lunchTable;
-	
 	int dinnerTable;
 	
 	String lunchHour;
 	
-	String dinnerHour;
-	
+		
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	User user;

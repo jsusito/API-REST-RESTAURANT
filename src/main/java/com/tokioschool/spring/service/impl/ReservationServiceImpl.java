@@ -3,6 +3,7 @@ package com.tokioschool.spring.service.impl;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.tokioschool.spring.domain.Reservation;
 import com.tokioschool.spring.domain.User;
 import com.tokioschool.spring.domain.dto.ReservationDTO;
+import com.tokioschool.spring.domain.proyection.ReservationCounterByDate;
+import com.tokioschool.spring.domain.proyection.UserCounterByReservation;
 import com.tokioschool.spring.domain.repository.GuestReservationDAO;
 import com.tokioschool.spring.domain.repository.ReservationDAO;
 import com.tokioschool.spring.domain.repository.UserDAO;
@@ -43,16 +46,14 @@ public class ReservationServiceImpl implements ReservationService{
         if(reservationDTO.getLunchTable() > MAX_NUM_TABLES)  
             throw new IllegalArgumentException("Solo hay %d mesas".formatted(MAX_NUM_TABLES));
         
-        if(reservationDTO.getLunchHour() == null && reservationDTO.getDinnerHour()==null)
+        if(reservationDTO.getLunchHour() == null)
             throw new IllegalArgumentException("tienes que elegir un horario");
 
         Reservation reservation = 
             Reservation.builder()
                 .dateReservations(reservationDTO.getDateReservations())
-                .dinnerHour(reservationDTO.getDinnerHour())
                 .dinnerTable(reservationDTO.getDinnerTable())
                 .lunchHour(reservationDTO.getLunchHour())
-                .lunchTable(reservationDTO.getLunchTable())
                 .numberPeople(reservationDTO.getNumberPeople())
                 .user(user)
                 .build();
@@ -68,7 +69,7 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<ReservationDTO> getReservationsByUsername(String surname) {
         
-        return reservationDAO.findByUserUsernameOrderByDateReservationsAscDinnerHour(surname)
+        return reservationDAO.findByUserUsernameOrderByDateReservationsAscLunchHour(surname)
                 .stream()
                 .map(reserva -> modelMapper.map(reserva, ReservationDTO.class)).toList();
     }
@@ -76,9 +77,20 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<ReservationDTO> getReservationsByDate(LocalDate date) {
          return 
-            reservationDAO.findByDateReservationsOrderByDinnerHourAsc(date)
+            reservationDAO.findByDateReservationsOrderByLunchHourAsc(date)
             .stream()
             .map(reserva -> modelMapper.map(reserva, ReservationDTO.class)).toList();
+    }
+
+    @Override
+    public List<UserCounterByReservation> getUserCounterByReservations() {
+        return reservationDAO.getCountReservationsByUser();
+    }
+
+    @Override
+    public Optional<ReservationCounterByDate> getReservationCounterByDate(LocalDate date) {
+        return reservationDAO.getReservationCounterByDate(date);
+            
     }
     
 }

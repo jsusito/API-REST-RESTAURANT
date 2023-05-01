@@ -44,8 +44,6 @@ public class ReservationDTO {
 	
 	private String lunchHour;
 	
-	private String dinnerHour;
-	
 	private String userUsername;
 
 	private String userTelephone;

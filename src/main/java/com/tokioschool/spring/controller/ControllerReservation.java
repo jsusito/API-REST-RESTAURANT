@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tokioschool.spring.domain.dto.GuestReservationDTO;
 import com.tokioschool.spring.domain.dto.ReservationDTO;
 import com.tokioschool.spring.domain.dto.ReservationUserAndGuest;
+import com.tokioschool.spring.domain.proyection.ReservationCounterByDate;
+import com.tokioschool.spring.domain.proyection.UserCounterByReservation;
 import com.tokioschool.spring.service.GuestReservationService;
 import com.tokioschool.spring.service.ReservationService;
 import com.tokioschool.spring.service.ReservationUserAndGuestService;
@@ -41,11 +43,27 @@ public class ControllerReservation {
             .body(reservationService.getReservationsByUsername(surname));
     }
 
+    //get all reservations by date, Both registered users and guests
     @GetMapping("/date/{date}")
     public ResponseEntity<List<ReservationUserAndGuest>> getReservationsByDate(@PathVariable LocalDate date){
         return ResponseEntity.ok()
             .body(reservationUserAndGuestService.getReservations(date));
     }
+
+    @GetMapping("/group-date/{date}")
+    public ResponseEntity<ReservationCounterByDate> getReservationByGroupDay(@PathVariable LocalDate date){
+        ReservationCounterByDate reservation = reservationService.getReservationCounterByDate(date).get();
+        
+        return ResponseEntity.ok(reservation);
+    }
+
+    @GetMapping("/group-user")
+    public ResponseEntity<List<UserCounterByReservation>> getReservationByGroupUser(){
+               
+        return ResponseEntity.ok(reservationService.getUserCounterByReservations());
+    }
+
+    
 
     @PostMapping
     public ResponseEntity<?> add(@RequestBody @Valid ReservationDTO reservationDTO){

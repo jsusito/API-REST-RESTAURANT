@@ -35,6 +35,7 @@ public class WebSecurityConfig  {
 	                , "/configuration/security"
 	                , "/configuration/ui"
 					, "/reservation/guest"
+					, "/reservation/date/**"
 					, "/api-docs/**"
 					, "/testExchangeAuthentication")
                         .permitAll())
