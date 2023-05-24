@@ -1,5 +1,7 @@
 package com.tokioschool.spring.domain.dto;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 
 import com.tokioschool.spring.domain.Receta;
@@ -9,6 +11,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +20,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Builder
 
 public class RecetaDTO {
     
@@ -29,8 +32,10 @@ public class RecetaDTO {
 	
 	String imagen;
 	
-	@NotBlank
 	String ingredients;
+
+	List<String>  principalIngredients;
+
 	
 	@Positive
 	@Max(40)

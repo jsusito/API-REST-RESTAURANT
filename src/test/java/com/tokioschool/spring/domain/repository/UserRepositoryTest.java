@@ -80,14 +80,12 @@ public class UserRepositoryTest {
         int total = (int) reservationDAO.findAll().stream().count();
         Assertions.assertEquals(2, total);
 
+        long idUser = users.get(0).getId();
+
         //Verify delete in cascade
-        userDAO.deleteById(1L);
+        userDAO.deleteById(idUser);
         int totalReservations = (int) reservationDAO.findAll().stream().count();
         Assertions.assertEquals(1, totalReservations);
-
-        
-
-
     }
 
 }

@@ -1,5 +1,6 @@
 package com.tokioschool.spring.security.cors;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -9,12 +10,15 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-public class CorsConfiguration implements WebMvcConfigurer{
+public class CorsConfiguration{
 	final private StoreConfigurationProperties configCors;
 	
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
 		
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
 		registry
 			.addMapping("/recetas/**")
 			.allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name())
@@ -27,7 +31,8 @@ public class CorsConfiguration implements WebMvcConfigurer{
 		registry
 			.addMapping("/reservation/**")
 			.allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.DELETE.name())
-			.allowedOrigins(configCors.permit()); 
+			.allowedOrigins(configCors.permit());
+			}			
+		};
 	}
-	
 }

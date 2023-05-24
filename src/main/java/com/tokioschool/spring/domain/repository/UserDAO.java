@@ -23,6 +23,6 @@ public interface UserDAO extends JpaRepository<User, Long> {
 	@Query("UPDATE users u SET u.lastLogin = :lastLogin WHERE u.username = :username")
 	int updateInitSesion(@Param("username") String username, @Param("lastLogin") LocalDateTime lastLogin);
 
-	
+	Optional<User> findByEmail(String email);
 
 }

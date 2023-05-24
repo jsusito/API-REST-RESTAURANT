@@ -37,7 +37,6 @@ public class ControllerRecetas {
 		return ResponseEntity.ok(recetaService.getRecetas());
 	}
 	
-	//TODO pendiente de completar falta verificar bien
 	public ResponseEntity<RecetaDTO> newReceta(
 			@RequestBody @Valid RecetaDTO recetaDTO,
 			@RequestPart("imagen") @NotNull MultipartFile multipartFile ){
@@ -59,12 +58,13 @@ public class ControllerRecetas {
 			
 	}
 	
-	@PostMapping("add-recetas")
+	@PostMapping(value = "add-recetas")
 	public ResponseEntity<RecetaDTO> addReceta(@RequestBody @Valid RecetaDTO recetaDTO){
 		
 		Receta receta = Receta.builder()
 				.name(recetaDTO.getName())
 				.ingredients(recetaDTO.getIngredients())
+				.principalIngredients(recetaDTO.getPrincipalIngredients())
 				.price(recetaDTO.getPrice())
 				.descripcion(recetaDTO.getDescripcion())
 				.build();

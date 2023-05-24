@@ -3,9 +3,10 @@ package com.tokioschool.spring.controller;
 import java.time.LocalDateTime;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,40 +26,38 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @CrossOrigin
 public class ControllerLogin {
-	
-	
+
 	private final JwtTokenUtil jwtTokenUtil;
 	private final UserDetailsService userDetailsService;
 	private final PasswordEncoder passwordEncoder;
 	private final UserService userService;
-	
-	@Tag(name="Login", description ="Authentication (get the Bearer)")
-	@PostMapping(value="/login", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> login(@RequestBody JwtRequest authRequest) throws Exception{
-		
-		//comprueba que el usuario y contraseña existan, llama internamente a FilterSecurity y a userDetails.
+	private final AuthenticationManager authenticationManager;
+
+	@Tag(name = "Login", description = "Authentication (get the Bearer)")
+	@PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<?> login(@RequestBody JwtRequest authRequest) throws Exception {
+
+		// comprueba que el usuario y contraseña existan, llama internamente a
+		// FilterSecurity y a userDetails.
 		authenticate(authRequest.getUsername(), authRequest.getPassword());
 
 		userService.updateInitSesion(authRequest.getUsername(), LocalDateTime.now());
-	
+
 		final String token = jwtTokenUtil.generateToken(authRequest.getUsername());
-		
+
 		return ResponseEntity.ok(new JwtResponse(token));
-		
-	}
-	
-	private void authenticate(String username, String password) throws Exception {
-	    try {
-	        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-	        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-	            throw new BadCredentialsException("Invalid credentials");
-	        }
-	    } catch (DisabledException de) {
-	        throw new Exception("User disable", de);
-	    } catch (BadCredentialsException bce) {
-	        throw new Exception("Invalid credentials", bce);
-	    }
+
 	}
 
-	
+	private void authenticate(String username, String password) throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			
+		} catch (DisabledException de) {
+			throw new Exception("User disable", de);
+		} catch (BadCredentialsException bce) {
+			throw new Exception("Invalid credentials", bce);
+		}
+	}
+
 }

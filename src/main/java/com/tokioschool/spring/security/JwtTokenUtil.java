@@ -15,7 +15,8 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.tokioschool.spring.security.config.JtwConfigurationProperties;
+import com.tokioschool.spring.security.config.JwtConfigurationProperties;
+import com.tokioschool.spring.security.config.KeyGenerator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtTokenUtil {
 	
-	private final JtwConfigurationProperties jwtConfiguration;
+	private final JwtConfigurationProperties jwtConfiguration;
 	
 	public String generateToken(String userName) throws JOSEException {
 
@@ -39,7 +40,8 @@ public class JwtTokenUtil {
         // Creamos el objeto JWS firmado con los claims y la clave secreta
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
         Payload payload = new Payload(claimsSet.toJSONObject());
-        JWSSigner signer = new MACSigner(jwtConfiguration.secret());
+        // JWSSigner signer = new MACSigner(jwtConfiguration.secret());
+        JWSSigner signer = new MACSigner(KeyGenerator.getKeyJwtGenerator());
         JWSObject jwsObject = new JWSObject(header, payload);
         jwsObject.sign(signer);
 

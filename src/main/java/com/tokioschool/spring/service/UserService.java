@@ -10,6 +10,9 @@ public interface UserService {
 	Optional<User> findById(Long id);
 	UserDTO getUser(String username);
 	Optional <User> findByUsername(String username);
+	Optional <User> findByEmail(String email);
 	UserDTO save(User user);
 	int updateInitSesion(String username, LocalDateTime lastLogin);
+	int totalUsers();
+    void deleteUser(Integer integer);
 }

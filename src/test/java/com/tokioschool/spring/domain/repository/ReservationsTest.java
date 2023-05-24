@@ -114,10 +114,13 @@ public class ReservationsTest {
     @AfterEach
 	void afterEach() {
 		userDAO.deleteAll();
+        reservationDAO.deleteAll();
+        roleDAO.deleteAll();
+	
 	}
 
     @Test
-    public void whenFindUserCounter_thenOk(){
+    public void givenListwhenFindUserCounter_thenOk(){
          List<UserCounterByReservation> countReservationsByUser = reservationDAO.getCountReservationsByUser();
          
          assertThat(countReservationsByUser.size() == 3);

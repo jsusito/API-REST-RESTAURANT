@@ -18,4 +18,5 @@ public interface ReservationService {
     List<ReservationDTO> getReservationsByDate(LocalDate date);
     List<UserCounterByReservation> getUserCounterByReservations();
     Optional<ReservationCounterByDate> getReservationCounterByDate(LocalDate date);
+    Optional<ReservationDTO> findById(Long id);
 }

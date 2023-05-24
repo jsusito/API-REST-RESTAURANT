@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tokioschool.spring.domain.Reservation;
@@ -13,7 +14,6 @@ import com.tokioschool.spring.domain.User;
 import com.tokioschool.spring.domain.dto.ReservationDTO;
 import com.tokioschool.spring.domain.proyection.ReservationCounterByDate;
 import com.tokioschool.spring.domain.proyection.UserCounterByReservation;
-import com.tokioschool.spring.domain.repository.GuestReservationDAO;
 import com.tokioschool.spring.domain.repository.ReservationDAO;
 import com.tokioschool.spring.domain.repository.UserDAO;
 import com.tokioschool.spring.service.ReservationService;
@@ -26,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService{
 
     private final int MAX_NUM_TABLES = 8;
     private final ReservationDAO reservationDAO;
-    private final GuestReservationDAO guestReservationDAO;
+   
     private final UserDAO userRepository;
     private final ModelMapper modelMapper;
     @Override
@@ -63,6 +63,15 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public void delete(long id) {
+        
+        //Comprobamos que el id corresponda con el usuario del contexto
+        String userContext = SecurityContextHolder.getContext().getAuthentication().getName(); 
+		Reservation reservation = reservationDAO.findById(id).get();
+		String userName = reservation.getUser().getUsername();
+        
+        if(!userName.equals(userContext))
+             throw new NoSuchElementException("error usuario"); 
+        
         reservationDAO.deleteById(id);
     }
 
@@ -76,7 +85,8 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public List<ReservationDTO> getReservationsByDate(LocalDate date) {
-         return 
+         
+        return 
             reservationDAO.findByDateReservationsOrderByLunchHourAsc(date)
             .stream()
             .map(reserva -> modelMapper.map(reserva, ReservationDTO.class)).toList();
@@ -91,6 +101,11 @@ public class ReservationServiceImpl implements ReservationService{
     public Optional<ReservationCounterByDate> getReservationCounterByDate(LocalDate date) {
         return reservationDAO.getReservationCounterByDate(date);
             
+    }
+
+    @Override
+    public Optional<ReservationDTO> findById(Long id) {
+        return reservationDAO.findById(id).map(reservation -> modelMapper.map(reservation, ReservationDTO.class));
     }
     
 }

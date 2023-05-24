@@ -1,5 +1,7 @@
 package com.tokioschool.spring.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +32,8 @@ public class Receta {
 	String imagen;
 	
 	String ingredients;
+
+	List<String>  principalIngredients;
 	
 	float price;
 	
