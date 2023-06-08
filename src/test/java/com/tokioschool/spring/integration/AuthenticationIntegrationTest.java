@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -38,7 +37,7 @@ import com.tokioschool.spring.service.UserService;
 @SpringBootTest //Creamos todo el contexto de la aplicacion
 @AutoConfigureMockMvc //No iniciamos el server con los puertos
 public class AuthenticationIntegrationTest {
-
+    
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -109,12 +108,13 @@ public class AuthenticationIntegrationTest {
          String token = jwtTokenUtil.generateToken("ferrer"); 
         
         UserDTO userRequest = UserDTO.builder()
-            .name("jesus")
-            .surname("ferrer")
+            .name("jes234")
+            .surname("3434ferrer")
             .birtDate(LocalDate.now().minusDays(10))
+            .telephone("34584753456")
             .email("jsusito45634@gmail.com")
-            .username("jesusFerrer")
-            .password("123456")
+            .username("je343susFerrer")
+            .password("1234534346")
             .build();
         
         String response = mockMvc.perform(post("/user/new-user")
@@ -160,18 +160,19 @@ public class AuthenticationIntegrationTest {
             .birtDate(LocalDate.now().minusDays(10))
             .email("jsusito@gmail.com")
             .username("jesusFerrer")
+            .telephone("345634563")
             .password("123456")
             .build();
         
-        try{
+       
             mockMvc
                 .perform(post("/user/new-user")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(userRequest)))
-                .andExpect(status().isOk());
-        }catch(Exception e){
+                .andExpect(status().is4xxClientError());
+    
             System.out.println("El usuario ya existe");
-        }
+        
     }
 }
                 

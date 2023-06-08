@@ -68,6 +68,7 @@ void givenNewUserThenOk() throws Exception {
             .email("jsusito@gmail.com")
             .username("jesusFerrer")
             .password("123456")
+            .telephone("123456784")
             .build();
     
     UserDTO userResponse = UserDTO.builder()
@@ -78,6 +79,7 @@ void givenNewUserThenOk() throws Exception {
         .email("jsusito@gmail.com")
         .username("jesusFerrer")
         .password("XXXXXXXXX")
+        .telephone("123456784")
         .build();
 
     Role role = Role.builder().id(5L).name("USER").build();

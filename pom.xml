@@ -12,7 +12,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<!-- Le decimos que ahora springFramework maneje todas las dependencias, asi puede gestionar las versiones automaticas-->
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>3.0.4</version>
+				<version>3.0.7</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
